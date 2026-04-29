@@ -37,7 +37,7 @@ def refresh(request : Request , response : Response):
         payload = verify_token(refresh_token)
         new_acces = create_acces_token({"sub":payload["sub"]})
 
-        response.set_cookie("access_token",new_acces,httponly=True,samesite="lax",secure=False)
+        response.set_cookie("access_token",new_acces,httponly=True,samesite="none",secure=True)
         return {"message":"refreshed"}
     except:
         raise HTTPException(status_code=401)
@@ -74,8 +74,8 @@ def login(users : Login,response : Response): # type: ignore
         acces = create_acces_token({"sub":user['email']}) # type: ignore
         refresh = create_refresh_token({"sub":user['email']}) # type: ignore
 
-        response.set_cookie('access_token',acces,httponly=True,samesite="lax",secure=False)
-        response.set_cookie('refresh_token',refresh,httponly=True,samesite="lax",secure=False)
+        response.set_cookie('access_token',acces,httponly=True,samesite="none",secure=True)
+        response.set_cookie('refresh_token',refresh,httponly=True,samesite="none",secure=True)
 
         return {"name":f"{user['name']}","acces":1} # type: ignore
     else:
