@@ -50,6 +50,7 @@ def logout(response : Response):
 
 @router.post("/register")
 def register(user : User):
+    print(f"Donné recu : {user}")
     hashed = hash_password(user.password)
     query = """
         INSERT INTO application (name,email,password) VALUES (%s,%s,%s)
