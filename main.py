@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from route.routes import router
 from fastapi.middleware.cors import CORSMiddleware
 
+print("Demarrage du serveur !")
+
 app = FastAPI()
 
 app.add_middleware(
