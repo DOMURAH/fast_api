@@ -1,8 +1,9 @@
-﻿from fastapi import APIRouter,Response,Request,HTTPException,Depends
+from fastapi import APIRouter,Response,Request,HTTPException,Depends,UploadFile,File
 from models.models import User,Login
 from security import hash_password,verify_password
 from database import db,cursor
 from configJWT import create_acces_token,create_refresh_token,verify_token  # type: ignore
+import pandas as pd
 
 router = APIRouter()
 
@@ -50,7 +51,6 @@ def logout(response : Response):
 
 @router.post("/register")
 def register(user : User):
-    print(f"Donné recu : {user}")
     hashed = hash_password(user.password)
     query = """
         INSERT INTO application (name,email,password) VALUES (%s,%s,%s)
@@ -80,3 +80,20 @@ def login(users : Login,response : Response): # type: ignore
         return {"name":f"{user['name']}","acces":1} # type: ignore
     else:
         return {"message":"Identifiant incorrect !","acces":0} # type: ignore
+
+@router.post("/upload")
+async def upload(file : UploadFile = File(...)):
+
+    from datetime import datetime
+
+    df = pd.read_csv(file.file)
+
+    df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+
+    data_now = datetime.now().date()
+
+    df_aujourd_hui = df[df['Date'].dt.date == data_now]
+
+    total = df_aujourd_hui['Price'].sum()
+
+    return {"total": total}
