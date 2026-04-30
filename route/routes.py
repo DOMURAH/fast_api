@@ -87,7 +87,7 @@ async def upload(file : UploadFile = File(...)):
 
     from datetime import datetime
 
-    df = pd.read_csv(file.file)
+    df = pd.read_csv(file.file,,skiprows=1)
 
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
 
