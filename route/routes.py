@@ -98,8 +98,11 @@ async def upload(file : UploadFile = File(...)):
     total = df_aujourd_hui['Price'].sum()
 
     total_all = df['Price'].sum()
+    
+    number_of_rows = len(df)
 
     return {
         "total_now": float(total),
-        "total_all" : float(total_all)
+        "total_all" : float(total_all),
+        "number_of_rows" : int(number_of_rows)
     }
