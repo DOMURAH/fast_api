@@ -5,7 +5,6 @@ from security import hash_password,verify_password
 from database import db,cursor
 from configJWT import create_acces_token,create_refresh_token,verify_token  # type: ignore
 import pandas as pd
-from routerOS import api  # type: ignore
 
 router = APIRouter()
 
@@ -110,5 +109,18 @@ async def upload(file : UploadFile = File(...)): # type: ignore
     
 @router.get("/mikrotik")
 def mikrotik():
+
+    import routeros_api
+    
+    connection = routeros_api.RouterOsApiPool(
+        "192.168.1.55",
+        username="admin",
+        password="1234",
+        port=8728,
+        plaintext_login=True
+    )
+
+    api = connection.get_api()
     active_connections = api.get_resource('/ip/hotspot/active').get() # type: ignore
+    
     return {"active_connections": len(active_connections)} # type: ignore
