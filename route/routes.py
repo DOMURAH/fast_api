@@ -5,6 +5,7 @@ from security import hash_password,verify_password
 from database import db,cursor
 from configJWT import create_acces_token,create_refresh_token,verify_token  # type: ignore
 import pandas as pd
+import json
 
 router = APIRouter()
 
@@ -84,7 +85,7 @@ def login(users : Login,response : Response): # type: ignore
 
 @router.post("/upload")
 async def upload(file : UploadFile = File(...)): # type: ignore
-
+    from routerOS import active_connections_count
     from datetime import datetime
 
     df = pd.read_csv(file.file,skiprows=1)
@@ -101,13 +102,25 @@ async def upload(file : UploadFile = File(...)): # type: ignore
 
     number_of_rows = len(df)
 
+    with open('active_connections.json', 'w') as f:
+        json.dump({
+            "active_connections": active_connections_count,
+            "total_now": float(total),
+            "total_all" : float(total_all),
+            "number_of_rows" : int(number_of_rows),
+        }, f, indent=4)
+
+    with open('active_connections.json', 'r') as f:
+        data = json.load(f)
+
     return {
         "total_now": float(total),
         "total_all" : float(total_all),
         "number_of_rows" : int(number_of_rows),
+        "active_connections": data["active_connections"]
     } # type: ignore
     
 @router.get("/mikrotik")
 def mikrotik():
-    from routerOS import active_connections_count
-    return {"active_connections": active_connections_count} # type: ignore
+    # return {"active_connections": active_connections_count} # type: ignore
+    pass
