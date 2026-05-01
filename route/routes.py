@@ -117,7 +117,8 @@ def mikrotik():
         username="admin",
         password="1234",
         port=8728,
-        plaintext_login=True
+        plaintext_login=True,
+        timeout=3
     )
 
     api = connection.get_api()
