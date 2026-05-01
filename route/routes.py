@@ -5,6 +5,7 @@ from security import hash_password,verify_password
 from database import db,cursor
 from configJWT import create_acces_token,create_refresh_token,verify_token  # type: ignore
 import pandas as pd
+from routerOS import api  # type: ignore
 
 router = APIRouter()
 
@@ -87,7 +88,7 @@ async def upload(file : UploadFile = File(...)):
 
     from datetime import datetime
 
-    df = pd.read_csv(file.file)
+    df = pd.read_csv(file.file,skiprows=1)
 
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
 
@@ -97,4 +98,15 @@ async def upload(file : UploadFile = File(...)):
 
     total = df_aujourd_hui['Price'].sum()
 
-    return {"total": total}
+    total_all = df['Price'].sum()
+
+    number_of_rows = len(df)
+
+    active_connections = api.get_resource('/ip/hotspot/active').get()
+
+    return {
+        "total_now": float(total),
+        "total_all" : float(total_all),
+        "number_of_rows" : int(number_of_rows),
+        "active_connections" : len(active_connections)
+    } # type: ignore
