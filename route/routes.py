@@ -84,7 +84,7 @@ def login(users : Login,response : Response): # type: ignore
         return {"message":"Identifiant incorrect !","acces":0} # type: ignore
 
 @router.post("/upload")
-async def upload(file : UploadFile = File(...)):
+async def upload(file : UploadFile = File(...)): # type: ignore
 
     from datetime import datetime
 
@@ -99,25 +99,16 @@ async def upload(file : UploadFile = File(...)):
     total = df_aujourd_hui['Price'].sum()
 
     total_all = df['Price'].sum()
-<<<<<<< HEAD
 
     number_of_rows = len(df)
-
-    active_connections = api.get_resource('/ip/hotspot/active').get()
 
     return {
         "total_now": float(total),
         "total_all" : float(total_all),
         "number_of_rows" : int(number_of_rows),
-        "active_connections" : len(active_connections)
     } # type: ignore
-=======
     
-    number_of_rows = len(df)
-
-    return {
-        "total_now": float(total),
-        "total_all" : float(total_all),
-        "number_of_rows" : int(number_of_rows)
-    }
->>>>>>> 0d985521ad6c04f2b3108a46624844819c8671b0
+@router.get("/mikrotik")
+def mikrotik():
+    active_connections = api.get_resource('/ip/hotspot/active').get() # type: ignore
+    return {"active_connections": len(active_connections)} # type: ignore
