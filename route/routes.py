@@ -97,4 +97,9 @@ async def upload(file : UploadFile = File(...)):
 
     total = df_aujourd_hui['Price'].sum()
 
-    return {"total": float(total)}
+    total_all = df['Price'].sum()
+
+    return {
+        "total_now": float(total),
+        "total_all" : float(total_all)
+    }
