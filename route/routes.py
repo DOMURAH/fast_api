@@ -99,6 +99,7 @@ async def upload(file : UploadFile = File(...)):
     total = df_aujourd_hui['Price'].sum()
 
     total_all = df['Price'].sum()
+<<<<<<< HEAD
 
     number_of_rows = len(df)
 
@@ -110,3 +111,13 @@ async def upload(file : UploadFile = File(...)):
         "number_of_rows" : int(number_of_rows),
         "active_connections" : len(active_connections)
     } # type: ignore
+=======
+    
+    number_of_rows = len(df)
+
+    return {
+        "total_now": float(total),
+        "total_all" : float(total_all),
+        "number_of_rows" : int(number_of_rows)
+    }
+>>>>>>> 0d985521ad6c04f2b3108a46624844819c8671b0
