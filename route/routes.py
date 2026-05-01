@@ -109,24 +109,5 @@ async def upload(file : UploadFile = File(...)): # type: ignore
     
 @router.get("/mikrotik")
 def mikrotik():
-<<<<<<< HEAD
     from routerOS import active_connections_count
     return {"active_connections": active_connections_count} # type: ignore
-=======
-
-    import routeros_api
-    
-    connection = routeros_api.RouterOsApiPool(
-        "192.168.1.55",
-        username="admin",
-        password="1234",
-        port=8728,
-        plaintext_login=True,
-        timeout=3
-    )
-
-    api = connection.get_api()
-    active_connections = api.get_resource('/ip/hotspot/active').get() # type: ignore
-    
-    return {"active_connections": len(active_connections)} # type: ignore
->>>>>>> 0fb314859f34c4a5167fb589d5230af3be73fe60
