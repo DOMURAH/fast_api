@@ -12,4 +12,4 @@ api = connection.get_api()
 
 active_connections = api.get_resource('/ip/hotspot/active').get()
 
-print(len(active_connections))
+active_connections_count = len(active_connections)
