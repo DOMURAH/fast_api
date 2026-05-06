@@ -1,9 +1,14 @@
-# Plan pour fixer l'erreur 500 Internal Server Error
+# Task: Append new df_api users to report-mikhmon-all (11).csv
 
 ## Steps:
-- [x] 1. Edit route/routes.py : Fix typos (/singup → /signup, func name), ajouter try/except pour capturer erreur DB exacte. ✅
-- [ ] 2. Lancer `uvicorn main:app --reload` et tester POST /signup via /docs.
-- [ ] 3. Ajouter endpoints login/fruits si confirmé.
-- [ ] 4. Compléter.
+- [x] Analyze files (CSV, routerOS.py, main.py, routes.py)
+- [x] Create plan and get confirmation
+- [ ] Add POST /append-new-users endpoint in route/routes.py:
+  - Fetch df_api via get_all_users() + parsing
+  - Load CSV, get existing usernames
+  - Filter new users, assign next №
+  - Append and save CSV (preserve summary)
+- [ ] Test endpoint
+- [ ] Update totals if needed
 
-Progression tracked ici.
+Current: Ready to implement endpoint.
